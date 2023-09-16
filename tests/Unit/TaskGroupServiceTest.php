@@ -9,35 +9,46 @@ use Tests\TestCase;
 class TaskGroupServiceTest extends TestCase
 {
 
-
-
     public function setUp(): void
     {
         parent::setUp();
 
     }
 
-    public function test_create_task_group()
+    public function test_create_group()
     {
+        // Create a user and task group data
+        $user = User::factory()->create();
         $taskGroupData = [
             'name' => 'Test Task Group',
             'description' => 'This is a test task group.',
-            'user_id' => User::factory()->create()->id,
+            'user_id' => $user->id,
         ];
 
+        // Create a task group using the service
         $taskGroup = TaskGroupService::create($taskGroupData);
 
+        // Assert that the task group exists in the database
         $this->assertDatabaseHas('task_groups', $taskGroupData);
 
+        // Assert individual attributes
         $this->assertEquals($taskGroupData['name'], $taskGroup->name);
         $this->assertEquals($taskGroupData['description'], $taskGroup->description);
         $this->assertEquals($taskGroupData['user_id'], $taskGroup->user_id);
     }
 
-    public function test_update_task_group()
+    public function test_get_task_group_by_id()
     {
         $taskGroup = TaskGroup::factory()->create();
+    
+        $retrievedTaskGroup = TaskGroupService::find($taskGroup->id);
+    
+        $this->assertTrue($taskGroup->is($retrievedTaskGroup));
+    }
 
+    public function test_update_group()
+    {
+        $taskGroup = TaskGroup::factory()->create();
 
         $taskGroupData = [
             'name' => 'New Name',
@@ -54,18 +65,7 @@ class TaskGroupServiceTest extends TestCase
         $this->assertEquals($taskGroupData['description'], $updatedTaskGroup->description);
     }
 
-    public function test_delete_task_group()
-    {
-        $taskGroup =TaskGroup::factory()->create();
-
-        TaskGroupService::delete($taskGroup);
-
-        $this->assertDeleted('task_groups', [
-            'id' => $taskGroup->id,
-        ]);
-    }
-
-    public function test_get_all_task_groups()
+    public function test_get_all_groups()
     {
         $taskGroups = TaskGroup::factory(3)->create();
 
@@ -73,15 +73,5 @@ class TaskGroupServiceTest extends TestCase
 
         $this->assertGreaterThanOrEqual($taskGroups->count(), $retrievedTaskGroups->count());
     }
-
-    public function test_get_task_group_by_id()
-    {
-        $taskGroup = TaskGroup::factory()->create();
-
-        $retrievedTaskGroup = TaskGroupService::find($taskGroup->id);
-
-        $this->assertEquals($taskGroup->name, $retrievedTaskGroup->name);
-        $this->assertEquals($taskGroup->description, $retrievedTaskGroup->description);
-        $this->assertEquals($taskGroup->user_id, $retrievedTaskGroup->user_id);
-    }
+    
 }

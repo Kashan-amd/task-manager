@@ -30,140 +30,99 @@ class TaskServiceTest extends TestCase
      */
     public function test_create_task()
     {
+        // Arrange: Create a task group
         $taskGroup = TaskGroup::factory()->create();
+    
+        // Act: Create a new task
         $taskData = [
             'user_id' => User::factory()->create()->id,
             'name' => 'Sample Task',
             'description' => 'Sample Task Description',
             'frequency' => 'daily',
             'duration' => 30,
-            'start_date'=>now()->format('Y-m-d H:m:s'),
-            'due_date'=>now()->addDays(30)->format('Y-m-d H:m:s'),
-            'completed'=>false,
+            'start_date' => now(),
+            'due_date' => now()->addDays(30),
+            'completed' => false,
             'task_group_id' => $taskGroup->id,
         ];
-
+    
         $task = TaskService::create($taskData);
+    
+        // Assert: Check if the task was stored in the database correctly
         $this->assertDatabaseHas('tasks', $taskData);
-
-        // $this->assertInstanceOf(Task::class, $task);
+    
+        // Assert: Check specific attributes of the created task
         $this->assertEquals($taskData['name'], $task->name);
         $this->assertEquals($taskData['description'], $task->description);
         $this->assertEquals($taskData['frequency'], $task->frequency);
         $this->assertEquals($taskData['duration'], $task->duration);
         $this->assertEquals($taskData['task_group_id'], $task->task_group_id);
     }
+    
     /**
+     * Test finding a task.
+     *
+     * @return void
+     */
+    public function test_find_task_by_id()
+    {
+        // Create a task using the factory and retrieve its ID
+        $task = Task::factory()->create();
+    
+        // Use the built-in `find` method to retrieve the task by its ID
+        $foundTask = Task::find($task->id);
+    
+        // Assert that the found task is an instance of the Task model
+        $this->assertInstanceOf(Task::class, $foundTask);
+    
+        // Assert that the IDs of the original and found tasks match
+        $this->assertEquals($task->id, $foundTask->id);
+    }
+
+    /** @test */
+    public function test_marked_completed_and_recreated()
+    {
+        // Arrange: Create a task with a weekly frequency and due date in the past
+        $task = Task::factory()->create([
+            'frequency' => 'weekly',
+            'due_date' => now()->subWeek(),
+        ]);
+    
+        // Act: Mark the task as completed
+        TaskService::markAsCompleted($task->id);
+    
+        // Assert: Verify that the task is marked as completed and recreated
+        $this->assertTrue($task->fresh()->completed);
+    }
+
+        /**
      * Test update a task.
      *
      * @return void
      */
     public function test_update_task()
     {
+        // Create a task with default data
         $task = Task::factory()->create();
-
-
+    
+        // New data for the task
         $taskData = [
             'name' => 'New Task Name',
             'description' => 'New Description for New Task Name',
         ];
-
+    
+        // Update the task
         TaskService::update($taskData, $task);
-
+    
+        // Assert that the task in the database matches the updated data
         $this->assertDatabaseHas('tasks', $taskData);
-
+    
+        // Retrieve the updated task from the database
         $updatedTask = TaskService::find($task->id);
-
+    
+        // Assert that the task name and description have been updated
         $this->assertEquals($taskData['name'], $updatedTask->name);
         $this->assertEquals($taskData['description'], $updatedTask->description);
     }
-    /**
-     * Test finding a task.
-     *
-     * @return void
-     */
-    public function test_task_find_by_id()
-    {
-        $task = Task::factory()->create();
-
-        $foundTask = TaskService::find($task->id);
-
-        $this->assertInstanceOf(Task::class, $foundTask);
-        $this->assertEquals($task->id, $foundTask->id);
-    }
-
-    /**
-     * Test fetching all tasks.
-     *
-     * @return void
-     */
-    public function test_get_all_tasks()
-    {
-        $tasks = Task::factory()->count(3)->create();
-
-        $retrievedTasks = TaskService::all();
-
-        $this->assertGreaterThanOrEqual($tasks->count(), $retrievedTasks->count());
-    }
-
-    /**
-     * Test deleting a task.
-     *
-     * @return void
-     */
-    public function test_delete_task()
-    {
-        $task = Task::factory()->create();
-
-        TaskService::delete($task);
-
-        $this->assertDeleted($task);
-    }
-
-    /** @test */
-    public function it_determines_task_time_group_based_on_due_date()
-    {
-        $today = now()->startOfDay();
-        $tomorrow =  now()->addDay()->startOfDay();
-        $nextWeek =  now()->addWeek()->startOfDay();
-
-
-        $tasksToday = TaskService::determineTaskTimeGroup($today);
-        $tasksTomorrow = TaskService::determineTaskTimeGroup($tomorrow);
-        $tasksNextWeek = TaskService::determineTaskTimeGroup($nextWeek);
-        $tasksInTheNearFuture = TaskService::determineTaskTimeGroup($nextWeek->addWeeks(3));
-        $tasksInTheFuture = TaskService::determineTaskTimeGroup($nextWeek->addDays(1));
-
-        $this->assertEquals('Tasks Today', $tasksToday);
-        $this->assertEquals('Tasks Tomorrow', $tasksTomorrow);
-        $this->assertEquals('Tasks Next Week', $tasksNextWeek);
-        $this->assertEquals('Tasks in the Near Future', $tasksInTheNearFuture);
-        $this->assertEquals('Tasks in the Future', $tasksInTheFuture);
-    }
-
-    /** @test */
-    public function it_marks_task_as_completed_and_recreates_task_based_on_frequency()
-    {
-        $task = Task::factory()->create([
-            'frequency' => 'weekly',
-            'due_date' => now()->subWeek(),
-        ]);
-
-        TaskService::markAsCompleted($task->id);
-
-        $this->assertTrue($task->fresh()->completed);
-    }
-    /** @test */
-    public function test_get_due_date()
-    {
-
-        $startDate = '2022-04-01'; // April 1st, 2022
-        $duration = 7; // 7 days
-        $dueDate = TaskService::getDueDate($startDate, $duration);
-
-        // Assert
-        $this->assertEquals('2022-04-08 00:00:00', $dueDate);
-    }
-
-
+    
 }

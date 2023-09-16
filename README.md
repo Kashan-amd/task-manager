@@ -1,68 +1,94 @@
-# periodic-task-manager
+# Task Manager Application
 
-## How to Run periodic-task-manager on Production
+This is a web-based task management application developed using Laravel, Livewire, and Tailwind CSS. The application allows users to create, manage, and organize their tasks into groups. It offers features such as task grouping, scheduling, and user authentication.
 
-This guide will walk you through the steps required to set up and run a periodic-task-manager app on a production environment. This app allows users to create periodic tasks and manage them, defining their frequency and duration, and grouping them into task groups. It also displays pending tasks in a list organized by date, allowing users to mark them as completed. The app is built with Laravel, Livewire, and Tailwind.
+## Table of Contents
 
-## Prerequisites
-Before you begin, make sure you have the following:
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
 
-- A web server (e.g., Apache, Nginx)
-- PHP 7.3 or later
-- Composer
-- PostgresQL or another supported database
+## Features
 
-## Installation
+- **User Authentication:** Secure user authentication and authorization system to protect user data.
+- **Task Creation:** Users can create tasks with details such as name, description, due date, and priority.
+- **Task Groups:** Tasks can be grouped into categories (e.g., work, personal, shopping) for better organization.
+- **Scheduled Tasks:** Schedule tasks to recur daily, weekly, or monthly.
+- **Task List:** View and manage tasks in an organized list format.
+- **Task Status:** Mark tasks as completed or pending.
+- **Responsive Design:** The application is responsive and works on various devices and screen sizes.
 
-Clone the repository to your web server:
+## Getting Started
 
-Install dependencies using Composer:
-```bash
-composer install
-```
+Follow these instructions to set up and run the application on your local machine.
 
-Copy the .env.example file to .env 
-```bash
-cp .env.example .env
-```
-Update the database connection env variables
+### Prerequisites
 
-Generate a new application key:
-```bash
-php artisan key:generate
-```
-Run database migrations and seed the database:
-```bash
-php artisan migrate
-```
+Before you begin, make sure you have the following installed:
 
-## Running Unit Tests
-Ensure that PHPUnit is installed on your system. If not, you can install it using Composer:
-```bash
-composer require --dev phpunit/phpunit
-```
-Run the unit tests:
-Run Test for Task Service
-```bash
-php artisan test --filter TaskTest
-```
-Test For TaskServiceTest Include:
-  - ✓ create task
-  - ✓ update task
-  - ✓ task find by id
-  - ✓ get all tasks
-  - ✓ delete task
-  - ✓ it determines task time group based on due date
-  - ✓ it marks task as completed and recreates task based on frequency
-  - ✓ get due date
+- [PHP](https://www.php.net/) (>=7.3)
+- [Composer](https://getcomposer.org/)
+- [Node.js](https://nodejs.org/)
+- [NPM](https://www.npmjs.com/)
+- [MySQL](https://www.mysql.com/) or another database of your choice
 
-Run Test for Task Group Service
-```bash
-php artisan test --filter TaskGroupTest
-```
-Test For TaskGroupServiceTest Include:
-  - ✓ create task group
-  - ✓ update task group
-  - ✓ delete task group
-  - ✓ get all task groups
-  - ✓ get task group by id
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Kashan-amd/task-manager.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd task-manager
+   ```
+
+3. Install PHP dependencies using Composer:
+
+   ```bash
+   composer install
+   ```
+
+4. Install JavaScript dependencies using NPM:
+
+   ```bash
+   npm install
+   ```
+
+5. Create a `.env` file by copying `.env.example` and update it with your database configuration:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+6. Generate a new application key:
+
+   ```bash
+   php artisan key:generate
+   ```
+
+7. Migrate the database:
+
+   ```bash
+   php artisan migrate
+   ```
+
+8. Start the development server:
+
+   ```bash
+   php artisan serve
+   ```
+
+9. Visit `http://localhost:8000` in your web browser to access the application.
+
+## Usage
+
+- Register for a new user account or log in if you already have one.
+- Create tasks, assign them to task groups, and set their due dates.
+- View and manage your tasks in the task list.
+- Use the scheduling feature to create recurring tasks.
