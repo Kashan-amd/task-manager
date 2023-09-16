@@ -92,3 +92,8 @@ Before you begin, make sure you have the following installed:
 - Create tasks, assign them to task groups, and set their due dates.
 - View and manage your tasks in the task list.
 - Use the scheduling feature to create recurring tasks.
+
+
+## Documentation
+
+Read documentation for solution, tests, implementation instructions and db design.

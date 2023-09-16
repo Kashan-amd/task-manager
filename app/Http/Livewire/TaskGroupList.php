@@ -17,7 +17,7 @@ class TaskGroupList extends Component
 
     public function render()
     {
-        $taskgroups = TaskGroupService::all(); // Fetch the task groups (you can adjust this query as needed)
+        $taskgroups = TaskGroupService::getUserTaskGroup(); // Fetch the task groups (you can adjust this query as needed)
         return view('livewire.task-group', ['taskgroups' => $taskgroups]);
     }
 }

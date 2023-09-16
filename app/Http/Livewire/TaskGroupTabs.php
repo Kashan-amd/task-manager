@@ -19,7 +19,7 @@ class TaskGroupTabs extends Component
 
     public function render()
     {
-        $taskGroups = TaskGroupService::all();
+        $taskGroups = TaskGroupService::getUserTaskGroup();
 
         return view('livewire.task-group-tabs', compact('taskGroups'));
     }

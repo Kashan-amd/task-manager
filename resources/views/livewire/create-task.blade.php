@@ -89,7 +89,7 @@
                 @foreach($frequencyOptions as $optionValue => $optionLabel)
                     <option
                         value="{{ $optionValue }}" {{ $optionValue == $frequency ? 'selected' : '' }}>{{ $optionLabel }}</option>
-                @endforeach
+                @endforeach  
             </select>
         </div>
         <!-- Duration input -->
@@ -124,9 +124,6 @@
                               wire:loading.attr="disabled">
                     {{ __('Create Task') }}
                 </x-jet-button>
-                <img wire:loading wire:target="createTask"
-                     src="https://trophyoak.com/views/site/images/global/icons/loading.gif"
-                     class="animate-spin inline-block sm:w-10">
             </div>
         </div>
     </div>

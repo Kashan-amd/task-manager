@@ -3,7 +3,7 @@
     
     <div class="flex flex-col items-center justify-center h-64">
 
-        <div class="w-auto">
+        <div class="w-auto shadow">
             <div class="bg-white  sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="p-4 bg-white">
