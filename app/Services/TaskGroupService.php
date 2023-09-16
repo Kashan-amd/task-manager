@@ -88,6 +88,7 @@ class TaskGroupService
     public function getUserTaskGroup(): Collection
     {
         return $this->taskGroupRepository->getUserTaskGroup();
+
     }
 
 }

@@ -53,7 +53,7 @@
 
             <select id="task_group_id" name="task_group_id" wire:model.defer="task_group_id"
                     class="form-select mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                <option value="">Select Task Group</option>
+                <option value="">Select Group</option>
 
                 @foreach ($taskGroups as $taskGroup)
                     <option value="{{ $taskGroup->id }}"
@@ -92,13 +92,7 @@
                 @endforeach  
             </select>
         </div>
-        <!-- Duration input -->
-        <div class="col-span-6 sm:col-span-4 pt-2">
-            <x-jet-label for="duration" value="{{ __('Duration (days)') }}"/>
-            <x-jet-input-error for="duration" class="mt-2"/>
-            <x-jet-input type="number" id="duration" class="mt-1 block w-full" wire:model.defer="duration" min="1"/>
-        </div>
-
+        
         <!-- Start date input -->
         <div class="col-span-6 sm:col-span-4 pt-2">
             <x-jet-label for="start_date" value="{{ __('Start Date') }}"/>
@@ -106,17 +100,13 @@
             <x-jet-input type="date" id="start_date" class="mt-1 block w-full" wire:model.defer="start_date" :min="date('Y-m-d')"/>
         </div>
 
-        <!-- Completed input -->
+        <!-- Duration input -->
         <div class="col-span-6 sm:col-span-4 pt-2">
-            <x-jet-label for="completed" value="{{ __('Completed') }}"/>
-            <x-jet-input-error for="completed" class="mt-4"/>
-            <div class="flex items-center h-5 mt-4">
-                <x-jet-checkbox id="completed" class="mr-2" wire:model.defer="completed"/>
-                <label for="completed" class="block text-sm text-gray-900">
-                    {{ __('Mark task as completed') }}
-                </label>
-            </div>
+            <x-jet-label for="duration" value="{{ __('Duration (days)') }}"/>
+            <x-jet-input-error for="duration" class="mt-2"/>
+            <x-jet-input type="number" id="duration" class="mt-1 block w-full" wire:model.defer="duration" min="1"/>
         </div>
+
         <!-- Submit button  -->
         <div class="col-span-6 sm:col-span-4 pt-4">
             <div class="flex sm:justify-start">

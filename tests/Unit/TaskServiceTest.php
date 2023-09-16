@@ -47,11 +47,11 @@ class TaskServiceTest extends TestCase
         ];
     
         $task = TaskService::create($taskData);
-    
+        
         // Assert: Check if the task was stored in the database correctly
         $this->assertDatabaseHas('tasks', $taskData);
     
-        // Assert: Check specific attributes of the created task
+        // Assert: Check specific attributes of the created
         $this->assertEquals($taskData['name'], $task->name);
         $this->assertEquals($taskData['description'], $task->description);
         $this->assertEquals($taskData['frequency'], $task->frequency);
@@ -88,7 +88,7 @@ class TaskServiceTest extends TestCase
             'due_date' => now()->subWeek(),
         ]);
     
-        // Act: Mark the task as completed
+        // Act: Mark the task as completed 
         TaskService::markAsCompleted($task->id);
     
         // Assert: Verify that the task is marked as completed and recreated

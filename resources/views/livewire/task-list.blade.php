@@ -15,8 +15,8 @@
                             <div class="mb-4 mt-2">
                                 <h3 class="font-semibold text-lg pb-4">{{ __('New Task') }}</h3>
                                 <hr>
+                                @livewire('create-task')
                             </div>
-                            @livewire('create-task')
                         </div>
                     </div>
                 </div>
