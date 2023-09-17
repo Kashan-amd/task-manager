@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\TaskGroup;
 use App\Models\User;
 use App\Facades\TaskServiceFacade as TaskService;
+use Livewire\Livewire;
 use Tests\TestCase;
 
 /**
@@ -15,8 +16,6 @@ use Tests\TestCase;
  */
 class TaskServiceTest extends TestCase
 {
-
-
 
     protected function setUp(): void
     {
@@ -57,6 +56,19 @@ class TaskServiceTest extends TestCase
         $this->assertEquals($taskData['frequency'], $task->frequency);
         $this->assertEquals($taskData['duration'], $task->duration);
         $this->assertEquals($taskData['task_group_id'], $task->task_group_id);
+    }
+
+    /** @test */
+    public function test_delete_task()
+    {
+        // Create a task
+        $task = Task::factory()->create();
+
+        // Delete the task using TaskService
+        TaskService::deleteTask($task->id);
+
+        // Assert that the task was deleted from the database
+        $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
     
     /**

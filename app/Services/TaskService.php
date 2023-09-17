@@ -78,9 +78,16 @@ class TaskService
      *
      * @param Task $task
      */
-    public function delete(Task $task): void
+    public function deleteTask($taskId)
     {
-        $this->taskRepository->delete($task);
+        // Retrieve the task by ID and delete it
+        $task = TaskService::find($taskId);
+        if ($task) {
+            $task->delete();
+            session()->flash('success', 'Task deleted successfully.');
+        } else {
+            session()->flash('failed', 'Task not found.');
+        }
     }
 
     /**
