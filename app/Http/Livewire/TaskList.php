@@ -30,6 +30,18 @@ class TaskList extends Component
         session()->flash('success', 'Task marked as completed.');
     }
 
+    public function deleteTask($taskId)
+    {
+        // Retrieve the task by ID and delete it
+        $task = TaskService::find($taskId);
+        if ($task) {
+            $task->delete();
+            session()->flash('success', 'Task deleted successfully.');
+        } else {
+            session()->flash('failed', 'Task not found.');
+        }
+    }
+
     protected $listeners = ['taskCreated' => 'refreshTasks'];
 
     public function refreshTasks()

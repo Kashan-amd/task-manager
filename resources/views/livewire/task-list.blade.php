@@ -120,17 +120,22 @@
                                                                         Due Date: {{\Carbon\Carbon::parse($task->due_date)->format('d,M,Y')}}</p>
                                                                 </td>
                                                                 <!-- Column  -->
-                                                                <td class="px-6 py-4 whitespace-nowrap text-right  pl-4">
+                                                                <td class="py-4 whitespace-nowrap text-right  pl-4">
                                                                     <div class="flex justify-end">
                                                                         <x-jet-button
                                                                             wire:click="markAsCompleted({{ $task->id }})"
                                                                             wire:loading.attr="disabled">
                                                                             {{ __('Completed') }}
                                                                         </x-jet-button>
-                                                                        <img wire:loading
-                                                                             wire:target="markAsCompleted({{ $task->id }})"
-                                                                             src="https://trophyoak.com/views/site/images/global/icons/loading.gif"
-                                                                             class="animate-spin inline-block sm:w-10">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="py-4 whitespace-nowrap text-right">
+                                                                    <div class="flex justify-end">
+                                                                        <x-jet-button
+                                                                            wire:click="deleteTask({{ $task->id }})"
+                                                                            wire:loading.attr="disabled">
+                                                                            {{ __('Delete') }}
+                                                                        </x-jet-button>
                                                                     </div>
                                                                 </td>
                                                             </tr>
