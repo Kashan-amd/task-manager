@@ -7,14 +7,10 @@
 
     <div class="py-12">
         <div class="flex flex-col items-center justify-center">
-            <div class="p-4 bg-white shadow px-12">
-                All Tasks
-            </div>
+            @livewire('task-group-tabs')
         </div>
     </div>
     
-    @livewire('task-group-tabs')
     
-
 </x-app-layout>
 

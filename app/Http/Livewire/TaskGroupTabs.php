@@ -10,6 +10,7 @@ class TaskGroupTabs extends Component
 {
 
     public $activeGroup;
+    public $taskGroups;
 
     public function showGroup($groupId)
     {
@@ -19,8 +20,9 @@ class TaskGroupTabs extends Component
 
     public function render()
     {
-        $taskGroups = TaskGroupService::getUserTaskGroup();
-
-        return view('livewire.task-group-tabs', compact('taskGroups'));
+        $this->tasks = TaskService::getPendingTasksGroupedByDate();
+        $taskgroups = TaskGroupService::getUserTaskGroup();
+        //dd($this->taskGroups);
+        return view('livewire.task-group-tabs', ['taskgroups' => $taskgroups]);
     }
 }
